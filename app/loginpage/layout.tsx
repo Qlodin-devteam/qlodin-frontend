@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <main>
-          <SigninForm/>
+          
         {children}
         </main>
 

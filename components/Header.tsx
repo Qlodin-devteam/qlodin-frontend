@@ -1,9 +1,13 @@
 "use client"
 
-import { ClerkLoaded, SignInButton, UserButton, useUser } from "@clerk/nextjs"
+import { ClerkLoaded,  UserButton, useUser } from "@clerk/nextjs"
 import Link from "next/link"
 import Form from "next/form"
 import { PackageIcon, TrolleyIcon } from "@sanity/icons"
+
+import { Button } from "./ui/button"
+import SigninForm from "./SigninForm"
+
 
 function Header(){
 
@@ -15,7 +19,7 @@ function Header(){
     <div>
         <Link href="/" className="text-2xl flex   text-[#724baa]   hover:opacity-50 cursor-pointer mx-auto sm:mx-0 "    > 
         <div><img className="w-[32px] h-[32px]" src="/qlodin-logo.png" /></div>
-        <div className="font-medium font-playfair">QLodin</div>
+        <div className="text-[#724baa]  font-medium font-playfair">QLodin</div>
         </Link>
 
         <Form 
@@ -57,8 +61,13 @@ function Header(){
                 </div>
             ):(
                 
-                <SignInButton mode="modal" />
+                <Button>
+                    <Link href="/sign-in" className="text-white font-bold py-2 px-4 rounded" />
+                   
+                </Button>
+                
             )}
+            <SigninForm/>
               
         </ClerkLoaded>
         
