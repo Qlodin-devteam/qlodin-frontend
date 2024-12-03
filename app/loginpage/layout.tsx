@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 
 
 import "../globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
-import SigninForm from "@/components/SigninForm";
+
 
 
 
@@ -18,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider dynamic>
+   
     <html lang="en">
       <body>
         <main>
@@ -30,6 +29,6 @@ export default function RootLayout({
        
       </body>
     </html>
-    </ClerkProvider>
+
   );
 }

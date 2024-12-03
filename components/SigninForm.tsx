@@ -1,13 +1,13 @@
 import React from 'react'
-import { Button } from './ui/button'
+
 
 const SigninForm = () => {
   return (
     <section className="bg-[url('/bg.png')] dark:bg-gray-900">
   <div className="flex flex-col   items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
    
-      <div className="w-full   bg-white/30   rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-        <div className="flex flex-col items-center justify-center p-4 " >
+      <div className="w-full backdrop-blur-sm  rounded-lg bg-white/40 shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+        <div className="flex flex-col items-center justify-center " >
         <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
           <img className="w-10 h-10 mr-2" src="/qlodin-logo.png" alt="logo"/>
         
@@ -15,7 +15,7 @@ const SigninForm = () => {
       <h1 className="text-[#724baa] text-[30px]  font-medium font-playfair" >  Qlodin </h1>
 
       <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                  Sign in 
+                  Login
               </h1>
 
         </div>
@@ -27,7 +27,7 @@ const SigninForm = () => {
                       
                       <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg 
                       focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-                       dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="youremail" 
+                       dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Email" 
                        />
                   </div>
                   <div>
@@ -45,8 +45,8 @@ const SigninForm = () => {
 
                    
                  
-                  <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                      Don’t have an account yet? <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</a>
+                  <p className=" flex flex-col items-center justify-center  text-sm font-light text-gray-500 dark:text-gray-400">
+                      Don’t have an account yet? <a href="/signuppage" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</a>
                   </p>
               </form>
           </div>
