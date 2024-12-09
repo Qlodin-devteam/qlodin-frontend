@@ -1,10 +1,13 @@
 
-import SignupForm from '@/components/SignupForm'
+
+import RegisterForm from '@/components/Registration-form/RegisterForm'
+
 import React from 'react'
 
 const page = () => {
   return (
-    <div className="" ><SignupForm/>
+    <div className="" > 
+    <RegisterForm/>
       
     </div>
   )

@@ -2,15 +2,26 @@
 import React, { useState } from "react";
 
 const SigninForm = () => {
-  // State for form fields and API error
+  // State for form fields, API error, success message, and loading state
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");  // State for success message
+  const [loading, setLoading] = useState(false);
 
   // Submit handler
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent form reload
     setError(""); // Clear previous errors
+    setSuccess(""); // Clear previous success message
+
+    // Client-side validation
+    if (!email || !password) {
+      setError("Both email and password are required.");
+      return;
+    }
+
+    setLoading(true); // Start loading
 
     try {
       const response = await fetch("https://qlodin-backend.onrender.com/api/user/auth/login", {
@@ -20,17 +31,23 @@ const SigninForm = () => {
       });
 
       if (!response.ok) {
-        // Extract and display API error message
         const { message } = await response.json();
-        throw new Error(message || "Something went wrong");
+        throw new Error(message || "Invalid credentials. Please try again.");
       }
 
       // Success: Handle success logic (e.g., redirect to another page)
       const data = await response.json();
       console.log("Login successful:", data);
-      // Add your success logic here
+      setSuccess("Login successful!");  // Set the success message
+      setError(""); // Clear any previous error message
     } catch (err) {
-      setError(err.message); // Display error to the user
+      if (err.name === "TypeError") {
+        setError("Network error. Please check your connection.");
+      } else {
+        setError(err.message);
+      }
+    } finally {
+      setLoading(false); // End loading
     }
   };
 
@@ -63,6 +80,7 @@ const SigninForm = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   className="bg-gray-50 text-black text-base font-normal font-['Quicksand'] border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Email"
+                  required
                 />
               </div>
               <div>
@@ -74,17 +92,25 @@ const SigninForm = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   className="bg-gray-50 text-black text-base font-normal font-['Quicksand'] border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Password"
+                  required
                 />
               </div>
+              
               {error && (
                 <div className="text-red-500 text-sm font-medium">{error}</div>
               )}
+
+              {success && (
+                <div className="text-green-500 text-sm font-medium">{success}</div>
+              )}
+
               <div className="flex flex-col items-center justify-center rounded-sm bg-[#1E1E1E] p-2 text-white">
                 <button
                   type="submit"
                   className="text-white text-base font-semibold font-['Quicksand']"
+                  disabled={loading}
                 >
-                  Login
+                  {loading ? "Logging in..." : "Login"}
                 </button>
               </div>
               <div className="flex flex-col items-center justify-center text-black text-[22px] font-medium font-['Quicksand'] leading-7">
