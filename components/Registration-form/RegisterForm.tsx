@@ -80,7 +80,7 @@ return (
             </a>
             <h1 className="text-[#1E1E1E] text-[30px] font-medium font-playfair">Qlodin.</h1>
             <h1 className="text-xl text-center text-black text-[28px] font-semibold font-['Quicksand'] leading-7 tracking-tight md:text-2xl dark:text-white">
-              Complete Your Registration
+                  Welcome to qlodin
             </h1>
           </div>
           <div>
@@ -157,39 +157,7 @@ return (
 
 
 
-              <div>
-                <input
-                  type="text"
-                  name="firstName"
-                  value={newUser.firstName}
-                  placeholder="Firstname"
-                  onChange={handleOnChange}
-                  className="bg-gray-50 text-black text-base font-normal font-['Quicksand'] border-gray-300 rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white"
-                
-                />
-              </div>
-              <div>
-                <input
-                  type="text"
-                  name="lastName"
-                  value={newUser.lastName}
-                  placeholder="Lastname"
-                  onChange={handleOnChange}
-                  className="bg-gray-50 text-black text-base font-normal font-['Quicksand'] border-gray-300 rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white"
-               
-                />
-              </div>
-              <div>
-                <input
-                  type="text"
-                  name="userName"
-                  value={newUser.userName}
-                  placeholder="Username"
-                  onChange={handleOnChange}
-                  className="bg-gray-50 text-black text-base font-normal font-['Quicksand'] border-gray-300 rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white"
-                 
-                />
-              </div>
+
               <div className="flex items-center justify-center rounded-sm bg-[#1E1E1E] p-2 text-white">
     <button
       type="submit"

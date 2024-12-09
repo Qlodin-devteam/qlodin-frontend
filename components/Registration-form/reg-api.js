@@ -1,16 +1,16 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const userRegistration = async (formData) => {
   try {
     const response = await axios.post(
-      "https://qlodin-backend.onrender.com/api/user/auth/register",
+      'https://qlodin-backend.onrender.com/api/user/auth/register',
       formData,
       {
-        headers: { "Content-Type": "application/json" },
+        headers: { 'Content-Type': 'application/json' },
       }
     );
-    return response.data; 
+    return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || "Network error");
+    throw new Error(error.response?.data?.message || 'Network error');
   }
 };
