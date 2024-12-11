@@ -6,7 +6,7 @@ import Form from "next/form"
 import { PackageIcon, TrolleyIcon } from "@sanity/icons"
 
 import { Button } from "./ui/button"
-import SigninForm from "./SigninForm"
+import SigninForm from "./LoginForm/SigninForm"
 
 
 function Header(){

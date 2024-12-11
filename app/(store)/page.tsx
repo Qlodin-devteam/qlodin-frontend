@@ -1,12 +1,13 @@
-import { Button } from "@/components/ui/button";
+
+import SignUpPage from "@/components/SignUpPage";
 
 
 export default function Home() {
   return (
-    <div>
-      <h1>Welcome to Qlodin</h1>
-      <Button>Click here </Button>
-    </div>
+    <div  className= "bg-[url('/bg.png')]  min-h-screen  flex items-center justify-center relative overflow-hidden "  >
+
+    <SignUpPage/>
+     </div>
    
   );
 }

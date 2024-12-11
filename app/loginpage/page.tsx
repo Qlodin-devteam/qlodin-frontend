@@ -1,9 +1,22 @@
-import SigninForm from '@/components/SigninForm'
-import React from 'react'
+'use client'
+
+import FloatingShape from "@/components/FloatingShape"
+import SigninPage from "@/components/SIgninPage"
+
+
+
 
 const page = () => {
   return (
-    <div className="" ><SigninForm/>
+    <div   className= "bg-[url('/bg.png')]  min-h-screen  flex items-center justify-center relative overflow-hidden "
+ 
+  >
+  
+
+
+    
+      <SigninPage/>
+  
       
     </div>
   )
