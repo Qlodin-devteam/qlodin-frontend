@@ -1,4 +1,5 @@
 
+
 import SignUpPage from "@/components/SignUpPage";
 
 
@@ -9,5 +10,6 @@ export default function Home() {
     <SignUpPage/>
      </div>
    
+
   );
 }
