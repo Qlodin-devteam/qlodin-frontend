@@ -3,8 +3,6 @@ import { motion } from "framer-motion"
 import Input from "./Input"; 
 import {  Loader, User, Cake, } from "lucide-react";
 import { useState } from "react";
-
-
 import { useRouter } from "next/navigation";
  import { useAuthStore } from "@/app/store/authStore";
 

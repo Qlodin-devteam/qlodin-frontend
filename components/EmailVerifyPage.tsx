@@ -2,10 +2,18 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ChangeEvent, useRef, useState } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { setAuthUser } from "@/app/store/authSlice";
 
 const EmailVerificationPage = () => {
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const handleChange = (
     index: number,
@@ -32,6 +40,36 @@ const EmailVerificationPage = () => {
       }
     }
   };
+
+  const handleSubmit = async () => {
+    const router = useRouter();
+
+    setLoading(true);
+    try {
+      const otpValue = otp.join("");
+      const response = await axios.post(
+        "https://qlodin-backend.onrender.com/api/user/auth/verify-email",
+        { otp: otpValue },
+        { withCredentials: true }
+      );
+
+      const verifiedUser = response.data.data.user;
+      dispatch(setAuthUser(verifiedUser));
+      toast.success("Email verified successfully");
+      router.push("/profilesetup");
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Auto submit when all fields are filled
+  useEffect(() => {
+    if (otp.every((digit) => digit !== "")) {
+      handleSubmit(new Event("submit"));
+    }
+  }, [otp]);
 
   return (
     <motion.div
