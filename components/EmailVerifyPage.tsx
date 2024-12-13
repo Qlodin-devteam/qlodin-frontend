@@ -1,13 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useRef, useState,KeyboardEvent } from "react";
+import toast from "react-hot-toast";
 
 const EmailVerificationPage = () => {
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const [loading , setLoading ] = useState(false)
 
-  const handleChange = (index: number,
+  const handleChange = (
+    index: number,
      event: ChangeEvent<HTMLInputElement>): void => {
     const { value } = event.target;
     const newOtp = [...otp];
@@ -20,15 +24,38 @@ const EmailVerificationPage = () => {
     }
   };
 
-  const handleKeyDown =
-  index : number,
-  event : KeyboardEvent<HTMLInputElement>):void => (
-    :void => {
-      if(
-        event.key === "Backspace" &&  ! input
-      ) 
-    }
-  )ReferenceError.current[]
+  const handleKeyDown = (
+    index: number,
+    event: KeyboardEvent<HTMLInputElement>): void => {
+
+      if(event.key === "Backspace" && ! inputRefs.current[index]?.value && inputRefs.current[index-1]){
+        inputRefs.current[index-1]?.focus();
+      } 
+  
+ };
+
+ const handleSubmit = async()=>{
+  setLoading(true);
+  try{
+    const otpValue = otp.join("");
+    const response = await axios.post
+
+
+
+  }catch (error:any) {
+    toast.error(error.response.data.message)
+
+  }finally{
+    setLoading(false);
+  }
+
+ }
+  
+
+    
+  
+
+
 
   return (
     <motion.div
@@ -48,19 +75,20 @@ const EmailVerificationPage = () => {
       </div>
       <p className="text-center text-black mb-6">Enter the 6-digit code sent to your email address.</p>
 
-      <form className="space-y-6">
+      <form onClick={handleSubmit} className="space-y-6">
         <div className="flex justify-between">
-          {otp.map((value, index) => (
+          {[1,2,3,4,5,6].map((index) => (
             <input
               type="text"
-              value={value}
+              value={otp[index]}
               key={index}
               maxLength={1}
               onChange={(e) => handleChange(index, e)}
               ref={(el) => {
                 inputRefs.current[index] = el;
               }}
-              onKeyDown={(e)=> handleKeyDown(index,e)}
+              onKeyDown={(e)=>handleKeyDown(index,e )}
+             
               className="w-14 h-14 rounded-lg bg-gray-200 text-3xl font-bold text-center no-spinner"
             />
           ))}
