@@ -7,8 +7,10 @@ const EmailVerificationPage = () => {
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-  const handleChange = (index: number,
-     event: ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = (
+    index: number,
+    event: ChangeEvent<HTMLInputElement>
+  ): void => {
     const { value } = event.target;
     const newOtp = [...otp];
     newOtp[index] = value.slice(0, 1); // Ensure only a single digit is stored
@@ -20,15 +22,16 @@ const EmailVerificationPage = () => {
     }
   };
 
-  const handleKeyDown =
-  index : number,
-  event : KeyboardEvent<HTMLInputElement>):void => (
-    :void => {
-      if(
-        event.key === "Backspace" &&  ! input
-      ) 
+  const handleKeyDown = (
+    index: number,
+    event: React.KeyboardEvent<HTMLInputElement>
+  ): void => {
+    if (event.key === "Backspace" && !otp[index]) {
+      if (inputRefs.current[index - 1]) {
+        inputRefs.current[index - 1]?.focus();
+      }
     }
-  )ReferenceError.current[]
+  };
 
   return (
     <motion.div
@@ -38,15 +41,22 @@ const EmailVerificationPage = () => {
       className=""
     >
       <div className="flex flex-col items-center mt-10 justify-center">
-        <a href="#" className="flex items-center text-2xl font-semibold text-gray-900 dark:text-white">
+        <a
+          href="#"
+          className="flex items-center text-2xl font-semibold text-gray-900 dark:text-white"
+        >
           <img className="w-10 h-10 my-2" src="/mail.png" alt="logo" />
         </a>
-        <h1 className="text-[#1E1E1E] text-[30px] font-medium font-playfair">Qlodin.</h1>
+        <h1 className="text-[#1E1E1E] text-[30px] font-medium font-playfair">
+          Qlodin.
+        </h1>
         <h1 className="text-xl text-center text-black text-[28px] font-semibold font-['Quicksand'] leading-7 tracking-tight md:text-2xl dark:text-white">
           Verify Your Email
         </h1>
       </div>
-      <p className="text-center text-black mb-6">Enter the 6-digit code sent to your email address.</p>
+      <p className="text-center text-black mb-6">
+        Enter the 6-digit code sent to your email address.
+      </p>
 
       <form className="space-y-6">
         <div className="flex justify-between">
@@ -60,7 +70,7 @@ const EmailVerificationPage = () => {
               ref={(el) => {
                 inputRefs.current[index] = el;
               }}
-              onKeyDown={(e)=> handleKeyDown(index,e)}
+              onKeyDown={(e) => handleKeyDown(index, e)}
               className="w-14 h-14 rounded-lg bg-gray-200 text-3xl font-bold text-center no-spinner"
             />
           ))}
@@ -68,7 +78,7 @@ const EmailVerificationPage = () => {
 
         <div className="px-8 py-4 bg-opacity-50 flex justify-center">
           <p className="text-sm text-gray-400">
-            <Link href={"/loginpage"} className="text-black hover:underline">
+            <Link href={"/sign-in"} className="text-black hover:underline">
               Resend Code
             </Link>
           </p>
