@@ -1,14 +1,12 @@
 "use client";
 
-import ProfileSetup from "@/components/ProfileSetup";
-
-import React from "react";
+import FloatingShape from "@/components/FloatingShape";
+import SigninPage from "@/components/SIgninPage";
 
 const page = () => {
   return (
     <div className="bg-[url('/bg.png')]  min-h-screen  flex items-center justify-center relative overflow-hidden ">
-      {/* <ProfileSetup /> */}
-      <h3>Welcome to the Profile setup page</h3>
+      <SigninPage />
     </div>
   );
 };

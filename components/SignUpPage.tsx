@@ -7,65 +7,60 @@ import { Mail, Lock, Loader } from "lucide-react";
 import Link from "next/link";
 import PasswordStrengthMeter from "./PasswordStrengthMeter";
 import { useState } from "react";
- import axios from "axios";
+import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setAuthUser } from "@/app/store/authSlice";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
-
-
-
-
-
 const SignUpPage = () => {
-  const dispatch= useDispatch()
-  const router = useRouter()
+  const dispatch = useDispatch();
+  const router = useRouter();
 
-  const [loading , setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     email: "",
-    password:"",
-    
-  })
+    password: "",
+  });
 
-  const handleChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
-    const {name, value} = e.target
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
 
     setFormData({
       ...formData,
-      [name]:value
-    })
-  }
- const submitHandler = async (e:React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  setLoading(true)
-  try{
-   
-     const response = await  axios.post("https://qlodin-backend.onrender.com/api/user/auth/register",formData, { 
-      
-      headers: {
-        "Content-Type": "application/json",
-      },
+      [name]: value,
+    });
+  };
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        "https://qlodin-backend.onrender.com/api/user/auth/register",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      });
+      const user = response.data;
+      toast.success(
+        "Signup Successful please check your mail for your verification code "
+      );
+      dispatch(setAuthUser(user));
+      router.push("/verifyemail ");
+      console.log(user);
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-     const user = response.data;
-     toast.success("signup Successfull please check your mail for your verification code ")
-     dispatch(setAuthUser(user));
-     router.push("/verifyemail ");
-     console.log(user);
-
-  }catch(error:any){
-    toast.error(error.response.data.message)
-    console.log(error)
-
-  }finally{
-    setLoading(false)
-  }
-}
- 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -80,25 +75,21 @@ const SignUpPage = () => {
             href="#"
             className="flex items-center text-2xl font-semibold text-gray-900 dark:text-white"
           >
-            <img
-              className="w-10 h-10 my-2"
-              src="/qlodin-logo.png"
-              alt="logo"
-            />
+            <img className="w-10 h-10 my-2" src="/qlodin-logo.png" alt="logo" />
           </a>
           <h1 className="text-[#1E1E1E] text-[30px] font-medium font-playfair">
             Qlodin.
           </h1>
-          <h1 className="text-xl text-center text-black text-[28px] font-semibold font-['Quicksand'] leading-7 tracking-tight md:text-2xl dark:text-white">
+          <h1 className="text-xl text-center text-black text-[28px] font-semibold font-['Quicksand'] leading-7 tracking-tight md:text-2xl dark:text-white mb-2">
             Sign Up
           </h1>
         </div>
 
-        <form onSubmit={submitHandler} >
+        <form onSubmit={submitHandler}>
           <Input
             icon={Mail}
             type="email"
-            name='email'
+            name="email"
             placeholder="Email Address"
             value={formData.email}
             onChange={handleChange}
@@ -106,14 +97,14 @@ const SignUpPage = () => {
           <Input
             icon={Lock}
             type="password"
-            name='password'
+            name="password"
             placeholder="Password"
             value={formData.password}
             onChange={handleChange}
           />
-       
+
           <PasswordStrengthMeter password={formData.password} />
-          
+
           <motion.button
             className="mt-5 w-full py-3 px-4 bg-gradient-to-r from-black to-black text-white
             font-bold rounded-lg shadow-lg hover:from-black
@@ -122,21 +113,20 @@ const SignUpPage = () => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             type="submit"
-           
-          > {loading ? (
-            <Loader className=" text-white animate-spin mx-auto" size={24} />
-          ) : (
-            "Sign Up"
-          )}
-        
+          >
+            {" "}
+            {loading ? (
+              <Loader className=" text-white animate-spin mx-auto" size={24} />
+            ) : (
+              "Sign Up"
+            )}
           </motion.button>
-          
         </form>
       </div>
       <div className="px-8 py-4  bg-opacity-50 flex justify-center">
         <p className="text-sm text-gray-400">
           Already have an account?{" "}
-          <Link href={"/loginpage"} className="text-black hover:underline">
+          <Link href={"/sign-in"} className="text-black hover:underline">
             Login
           </Link>
         </p>
