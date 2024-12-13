@@ -70,3 +70,14 @@ body {
     @apply text-foreground;
   }
 }
+
+@layer utilities{
+  .no-spinner::-webkit-outer-spin-button,.no-spinner::-webkit-outer-spin-button{
+    @apply appearance-none;
+    margin: 0
+  }
+
+  .nospinner{
+    @apply appearance-none
+  }
+}

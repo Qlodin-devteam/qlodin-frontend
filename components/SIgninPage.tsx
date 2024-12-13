@@ -2,22 +2,12 @@
 import { motion } from "framer-motion"
 import Input from "./Input"; 
 import { Mail, Lock, Loader } from "lucide-react";
-import { useState } from "react";
+
 import Link from "next/link";
-import { useAuthStore } from "@/app/store/authStore";
+
 
 
 const SigninPage = () => {
-
-    const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-
-	const { login, isLoading, error } = useAuthStore();
-
-	const handleLogin = async (e) => {
-		e.preventDefault();
-		await login(email, password);
-	};
 
     
 

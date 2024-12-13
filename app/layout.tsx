@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 
 
-import "../globals.css";
+import "./globals.css";
+import ClientProvider from "./hoc/ClientProvider";
 
+import { Toaster } from "react-hot-toast";
 
 
 
@@ -20,8 +22,14 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <main>
-   
+          
+        <ClientProvider>
+       
         {children}
+        <Toaster/>
+        </ClientProvider>
+        
+     
         </main>
 
       

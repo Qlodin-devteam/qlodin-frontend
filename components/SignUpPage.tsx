@@ -1,33 +1,71 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { motion } from "framer-motion";
 import Input from "./Input";
 import { Mail, Lock, Loader } from "lucide-react";
-import { useState } from "react";
+
 import Link from "next/link";
 import PasswordStrengthMeter from "./PasswordStrengthMeter";
-import { useRouter } from "next/navigation"; // Import the useRouter hook
-import { useAuthStore } from "@/app/store/authStore";
+import { useState } from "react";
+ import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setAuthUser } from "@/app/store/authSlice";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+
+
+
+
+
 
 const SignUpPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const dispatch= useDispatch()
+  const router = useRouter()
 
-  const { signup, error, message, isLoading } = useAuthStore();
-  const router = useRouter(); // Use the router hook
+  const [loading , setLoading] = useState(false)
 
-  const handleSignUp = async (e) => {
-    e.preventDefault();
-    try {
-      await signup(email, password);
-      // Display success message
-      setTimeout(() => {
-        router.push("/verifyemail"); // Redirect after 5 seconds
-      }, 5000);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const [formData, setFormData] = useState({
+    email: "",
+    password:"",
+    
+  })
 
+  const handleChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
+    const {name, value} = e.target
+
+    setFormData({
+      ...formData,
+      [name]:value
+    })
+  }
+ const submitHandler = async (e:React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  setLoading(true)
+  try{
+   
+     const response = await  axios.post("https://qlodin-backend.onrender.com/api/user/auth/register",formData, { 
+      
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      });
+
+     const user = response.data;
+     toast.success("signup Successfull please check your mail for your verification code ")
+     dispatch(setAuthUser(user));
+     router.push("/verifyemail ");
+     console.log(user);
+
+  }catch(error:any){
+    toast.error(error.response.data.message)
+    console.log(error)
+
+  }finally{
+    setLoading(false)
+  }
+}
+ 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -56,24 +94,26 @@ const SignUpPage = () => {
           </h1>
         </div>
 
-        <form onSubmit={handleSignUp}>
+        <form onSubmit={submitHandler} >
           <Input
             icon={Mail}
             type="email"
+            name='email'
             placeholder="Email Address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={formData.email}
+            onChange={handleChange}
           />
           <Input
             icon={Lock}
             type="password"
+            name='password'
             placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={formData.password}
+            onChange={handleChange}
           />
-          {message && <p className="text-green-500 font-semibold mt-2  " >{message}</p>}
-          {error && <p className="text-red-500 font-semibold mt-2">{error}</p>}
-          <PasswordStrengthMeter password={password} />
+       
+          <PasswordStrengthMeter password={formData.password} />
+          
           <motion.button
             className="mt-5 w-full py-3 px-4 bg-gradient-to-r from-black to-black text-white
             font-bold rounded-lg shadow-lg hover:from-black
@@ -82,14 +122,15 @@ const SignUpPage = () => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             type="submit"
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <Loader className=" text-white animate-spin mx-auto" size={24} />
-            ) : (
-              "Sign Up"
-            )}
+           
+          > {loading ? (
+            <Loader className=" text-white animate-spin mx-auto" size={24} />
+          ) : (
+            "Sign Up"
+          )}
+        
           </motion.button>
+          
         </form>
       </div>
       <div className="px-8 py-4  bg-opacity-50 flex justify-center">
