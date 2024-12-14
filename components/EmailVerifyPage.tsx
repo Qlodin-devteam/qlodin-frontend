@@ -53,10 +53,18 @@ const EmailVerificationPage = () => {
 
     try {
       const otpValue = otp.join("");
+      const email = useSelector((state) => state.auth.email);
       await axios.post(
         "https://qlodin-backend.onrender.com/api/user/auth/verify-email",
-        { email, otp: otpValue }, // Include email and OTP in the payload
-        { withCredentials: true }
+        { email, otp: otpValue
+          
+         
+         }, // Include email and OTP in the payload
+        { 
+          headers: {
+            "Content-Type": "application/json",
+          },
+         }
       );
 
       toast.success("Email verified successfully");
