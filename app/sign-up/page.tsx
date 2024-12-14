@@ -1,4 +1,4 @@
-"use client";
+
 
 import SignUpPage from "@/components/SignUpPage";
 

@@ -5,16 +5,21 @@ import Link from "next/link";
 import { ChangeEvent, useRef, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
+import {  useSelector } from "react-redux";
 import { useEffect } from "react";
-import { setAuthUser } from "@/app/store/authSlice";
+import { RootState } from "@/app/store/store";
+import { Loader } from "lucide-react";
 
 const EmailVerificationPage = () => {
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
+  
+  const router = useRouter();
+
+  // Fetch email from Redux store
+  const email = useSelector((state: RootState) => state.auth.email);
 
   const handleChange = (
     index: number,
@@ -42,33 +47,31 @@ const EmailVerificationPage = () => {
     }
   };
 
-  const handleSubmit = async (p0: Event) => {
-    const router = useRouter();
-
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setLoading(true);
+
     try {
       const otpValue = otp.join("");
-      const response = await axios.post(
+      await axios.post(
         "https://qlodin-backend.onrender.com/api/user/auth/verify-email",
-        { otp: otpValue },
+        { email, otp: otpValue }, // Include email and OTP in the payload
         { withCredentials: true }
       );
 
-      const verifiedUser = response.data.data;
-      dispatch(setAuthUser(verifiedUser));
       toast.success("Email verified successfully");
       router.push("/profilesetup");
     } catch (error: any) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "Failed to verify email");
     } finally {
       setLoading(false);
     }
   };
 
-  // Auto submit when all fields are filled
+  // Auto-submit when all fields are filled
   useEffect(() => {
     if (otp.every((digit) => digit !== "")) {
-      handleSubmit(new Event("submit"));
+      handleSubmit(new Event("submit") as unknown as React.FormEvent<HTMLFormElement>);
     }
   }, [otp]);
 
@@ -97,9 +100,9 @@ const EmailVerificationPage = () => {
         Enter the 6-digit code sent to your email address.
       </p>
 
-      <form onClick={ handleSubmit}  className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div className="flex justify-between">
-          {[1,2,3,4,5,6].map((index) => (
+          {[1, 2, 3, 4, 5, 6].map((_, index) => (
             <input
               type="text"
               value={otp[index]}
@@ -131,7 +134,12 @@ const EmailVerificationPage = () => {
             hover:from-black hover:to-black focus:outline-none focus:ring-2
             focus:ring-yellow-500"
         >
-          Verify Email
+              {" "}
+            {loading ? (
+              <Loader className=" text-white animate-spin mx-auto" size={24} />
+            ) : (
+              "Sign Up"
+            )}
         </motion.button>
       </form>
     </motion.div>

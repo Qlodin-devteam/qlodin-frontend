@@ -1,24 +1,32 @@
-import { PayloadAction,createSlice } from '@reduxjs/toolkit';
-import {User} from "../typesds"
-
-
+// authSlice.ts
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface AuthState {
-    user: User | null;
+  email: string;
+  otp: string | null; // Add otp for optional use, if needed
 }
 
 const initialState: AuthState = {
-    user: null
+  email: "",
+  otp: null,
 };
 
 const authSlice = createSlice({
-    name: 'auth',
-    initialState,
-    reducers:{
-        setAuthUser:(state,action:PayloadAction<User | null >)=>{
-            state.user = action.payload
-        }
-    }
-})
-export const {setAuthUser} = authSlice.actions
+  name: "auth",
+  initialState,
+  reducers: {
+    setEmail(state, action: PayloadAction<string>) {
+      state.email = action.payload;
+    },
+    setOtp(state, action: PayloadAction<string>) {
+      state.otp = action.payload; // Optional, only if you want to store OTP
+    },
+    resetAuthState(state) {
+      state.email = "";
+      state.otp = null;
+    },
+  },
+});
+
+export const { setEmail, setOtp, resetAuthState } = authSlice.actions;
 export default authSlice.reducer;

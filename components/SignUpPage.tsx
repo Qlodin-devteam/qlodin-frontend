@@ -9,9 +9,9 @@ import PasswordStrengthMeter from "./PasswordStrengthMeter";
 import { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setAuthUser } from "@/app/store/authSlice";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import {  setEmail } from "@/app/store/authSlice";
 
 const SignUpPage = () => {
   const dispatch = useDispatch();
@@ -27,11 +27,12 @@ const SignUpPage = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
-    });
+    }));
   };
+
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -46,16 +47,20 @@ const SignUpPage = () => {
         }
       );
 
-      const user = response.data;
+      const email = response.data;
+
+      // Save email to Redux
+      dispatch(setEmail(formData.email));
+
       toast.success(
-        "Signup Successful please check your mail for your verification code "
+        "Signup Successful! Please check your email for the verification code."
       );
-      dispatch(setAuthUser(user));
-      router.push("/verifyemail ");
-      console.log(user);
+
+      dispatch(setEmail(email));
+      router.push("/verifyemail"); // Redirect to verification page
     } catch (error: any) {
-      toast.error(error.response.data.message);
-      console.log(error);
+      toast.error(error.response?.data?.message || "Signup failed.");
+      console.error("Signup Error:", error);
     } finally {
       setLoading(false);
     }
@@ -66,8 +71,7 @@ const SignUpPage = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="max-w-md w-full bg-white bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl 
-      overflow-hidden"
+      className="max-w-md w-full bg-white bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden"
     >
       <div className="p-8">
         <div className="flex flex-col items-center mt-10 justify-center">
@@ -93,6 +97,7 @@ const SignUpPage = () => {
             placeholder="Email Address"
             value={formData.email}
             onChange={handleChange}
+            required
           />
           <Input
             icon={Lock}
@@ -101,8 +106,10 @@ const SignUpPage = () => {
             placeholder="Password"
             value={formData.password}
             onChange={handleChange}
+            required
           />
 
+          {/* Password Strength Meter */}
           <PasswordStrengthMeter password={formData.password} />
 
           <motion.button
@@ -113,17 +120,17 @@ const SignUpPage = () => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             type="submit"
+            disabled={loading}
           >
-            {" "}
             {loading ? (
-              <Loader className=" text-white animate-spin mx-auto" size={24} />
+              <Loader className="text-white animate-spin mx-auto" size={24} />
             ) : (
               "Sign Up"
             )}
           </motion.button>
         </form>
       </div>
-      <div className="px-8 py-4  bg-opacity-50 flex justify-center">
+      <div className="px-8 py-4 bg-opacity-50 flex justify-center">
         <p className="text-sm text-gray-400">
           Already have an account?{" "}
           <Link href={"/sign-in"} className="text-black hover:underline">

@@ -1,6 +1,6 @@
 "use client";
 
-import FloatingShape from "@/components/FloatingShape";
+
 import SigninPage from "@/components/SIgninPage";
 
 const page = () => {

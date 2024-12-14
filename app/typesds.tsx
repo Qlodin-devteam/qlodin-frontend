@@ -1,5 +1,11 @@
-export type User ={
-    _id:string;
-    email:string;
-    isVerified: boolean,
-}
+
+
+export interface EmailOtpPayload {
+    email: string;
+    otp: string;
+  }
+  
+  export interface AuthState {
+    email: string;
+  }
+  
