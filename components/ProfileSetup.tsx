@@ -1,38 +1,38 @@
 "use client"
 import { motion } from "framer-motion"
 import Input from "./Input"; 
-import {  Loader, User, Cake, } from "lucide-react";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
- import { useAuthStore } from "@/app/store/authStore";
+import {   User, Cake, } from "lucide-react";
+// import { useState } from "react";
+// import { useRouter } from "next/navigation";
+
 
 const ProfileSetup = () => {
 
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [userName, setUserName] = useState("");
-    const [dateOfBirth, setDateOfBirth] = useState("");
-    const [mobileNumber, setMobileNumber] = useState("");
+    //  const [firstName, setFirstName] = useState("");
+    //  const [lastName, setLastName] = useState("");
+    //  const [userName, setUserName] = useState("");
+    //  const [dateOfBirth, setDateOfBirth] = useState("");
+    //  const [mobileNumber, setMobileNumber] = useState("");
 
    
 	
 
     
-	const { profilesetup, error, message, isLoading } = useAuthStore();
-	const router = useRouter(); // Use the router hook
+	// const { profilesetup, error, message, isLoading } = useAuthStore();
+	// const router = useRouter(); // Use the router hook
   
-	const handleSignUp = async (e) => {
-	  e.preventDefault();
-	  try {
-		await profilesetup(firstName, lastName,userName,dateOfBirth,mobileNumber);
-		// Display success message
-		setTimeout(() => {
-		  router.push("/step1"); // Redirect after 5 seconds
-		}, 5000);
-	  } catch (error) {
-		console.log(error);
-	  }
-	};
+	// const handleSignUp = async (e) => {
+	//   e.preventDefault();
+	//   try {
+	// 	await profilesetup(firstName, lastName,userName,dateOfBirth,mobileNumber);
+	// 	// Display success message
+	// 	setTimeout(() => {
+	// 	  router.push("/step1"); // Redirect after 5 seconds
+	// 	}, 5000);
+	//   } catch (error) {
+	// 	console.log(error);
+	//   }
+	// };
    
   return (
     <motion.div
@@ -62,22 +62,22 @@ const ProfileSetup = () => {
           </h1>
         </div>
 
-				<form onSubmit={handleSignUp} className="p-3" >
+				<form className="p-3" >
 					<div className="sm:flex sm:gap-4 ">
 
 					<Input
 						icon={User}
 						type='firstName'
 						placeholder='First Name'
-						value={firstName}
-						onChange={(e) => setFirstName(e.target.value)}
+						// value={firstName}
+						// onChange={(e) => setFirstName(e.target.value)}
 					/>
                         <Input
 						icon={User}
 						type='LastName'
 						placeholder='Last Name'
-						value={lastName}
-						onChange={(e) => setLastName(e.target.value)}
+						// value={lastName}
+						// onChange={(e) => setLastName(e.target.value)}
 					/>
 
 					</div>
@@ -85,16 +85,16 @@ const ProfileSetup = () => {
 						icon={Cake}
 						type='date'
 						placeholder='DD/MM/YYYY'
-						value={dateOfBirth}
-						onChange={(e) => setDateOfBirth(e.target.value)}
+						// value={dateOfBirth}
+						// onChange={(e) => setDateOfBirth(e.target.value)}
 					/>
          
                         <Input
 						icon={User}
 						type='userName'
 						placeholder='Driptag'
-						value={userName}
-						onChange={(e) => setUserName(e.target.value)}
+						// value={userName}
+						// onChange={(e) => setUserName(e.target.value)}
 					/>
 
 <div className="relative w-full">
@@ -121,8 +121,8 @@ const ProfileSetup = () => {
 	type="mobileNumber"
       placeholder="Phone Number"
 	    className="bg-gray-100 border-t border-r border-b border-gray-300 text-gray-800 text-sm rounded-r-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5"
-      value={mobileNumber}
-      onChange={(e) => setMobileNumber(e.target.value)}
+    //   value={mobileNumber}
+    //   onChange={(e) => setMobileNumber(e.target.value)}
     />
   </div>
 </div>
@@ -131,9 +131,9 @@ const ProfileSetup = () => {
 			 
 
 
-
+{/* 
 {message && <p className="text-green-500 font-semibold mt-2  " >{message}</p>}
-{error && <p className="text-red-500 font-semibold mt-2">{error}</p>}
+{error && <p className="text-red-500 font-semibold mt-2">{error}</p>} */}
                   
                     <motion.button
 						className='mt-5 w-full py-3 px-4 bg-gradient-to-r bg-black text-white 
@@ -143,10 +143,11 @@ const ProfileSetup = () => {
 						whileHover={{ scale: 1.02 }}
 						whileTap={{ scale: 0.98 }}
 						type='submit'
-                         disabled={isLoading}
+                        //  disabled={isLoading}
 						
 					>
-                        {isLoading ? <Loader className=' animate-spin mx-auto' size={24} /> : "Next"} 
+                        {/* {isLoading ? <Loader className=' animate-spin mx-auto' size={24} /> : "Next"}  */}
+						Next 
 					</motion.button>
                     </form>
 
