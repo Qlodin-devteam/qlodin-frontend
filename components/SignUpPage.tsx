@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { motion } from "framer-motion";
 import Input from "./Input";
 import { Mail, Lock, Loader } from "lucide-react";
-
 import Link from "next/link";
 import PasswordStrengthMeter from "./PasswordStrengthMeter";
 import { useState } from "react";
@@ -11,12 +9,11 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import {  setEmail } from "@/app/store/authSlice";
+import { setEmail,  } from "@/app/store/authSlice";
 
 const SignUpPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-
   const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -24,41 +21,30 @@ const SignUpPage = () => {
     password: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       const response = await axios.post(
         "https://qlodin-backend.onrender.com/api/user/auth/register",
         formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+        { headers: { "Content-Type": "application/json" } }
       );
 
-      const email = response.data;
+      const { email,  } = response.data;
 
       // Save email to Redux
-      dispatch(setEmail(formData.email));
-
-      toast.success(
-        "Signup Successful! Please check your email for the verification code."
-      );
-
       dispatch(setEmail(email));
+   
+
+      toast.success("Signup Successful! Please check your email for the verification code.");
       router.push("/verifyemail"); // Redirect to verification page
-    } catch (error: any) {
+    } catch (error) {
       toast.error(error.response?.data?.message || "Signup failed.");
       console.error("Signup Error:", error);
     } finally {
@@ -75,15 +61,10 @@ const SignUpPage = () => {
     >
       <div className="p-8">
         <div className="flex flex-col items-center mt-10 justify-center">
-          <a
-            href="#"
-            className="flex items-center text-2xl font-semibold text-gray-900 dark:text-white"
-          >
+          <a href="#" className="flex items-center text-2xl font-semibold text-gray-900 dark:text-white">
             <img className="w-10 h-10 my-2" src="/qlodin-logo.png" alt="logo" />
           </a>
-          <h1 className="text-[#1E1E1E] text-[30px] font-medium font-playfair">
-            Qlodin.
-          </h1>
+          <h1 className="text-[#1E1E1E] text-[30px] font-medium font-playfair">Qlodin.</h1>
           <h1 className="text-xl text-center text-black text-[28px] font-semibold font-['Quicksand'] leading-7 tracking-tight md:text-2xl dark:text-white mb-2">
             Sign Up
           </h1>
@@ -109,7 +90,6 @@ const SignUpPage = () => {
             required
           />
 
-          {/* Password Strength Meter */}
           <PasswordStrengthMeter password={formData.password} />
 
           <motion.button
@@ -122,11 +102,7 @@ const SignUpPage = () => {
             type="submit"
             disabled={loading}
           >
-            {loading ? (
-              <Loader className="text-white animate-spin mx-auto" size={24} />
-            ) : (
-              "Sign Up"
-            )}
+            {loading ? <Loader className="text-white animate-spin mx-auto" size={24} /> : "Sign Up"}
           </motion.button>
         </form>
       </div>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { motion } from "framer-motion";
@@ -19,12 +20,14 @@ const EmailVerificationPage = () => {
   const router = useRouter();
 
   // Fetch email from Redux store
+
   const email = useSelector((state: RootState) => state.auth.email);
+  console.log(email); // Check if email is being retrieved
 
   const handleChange = (
     index: number,
     event: ChangeEvent<HTMLInputElement>
-  ): void => {
+  ) => {
     const { value } = event.target;
     const newOtp = [...otp];
     newOtp[index] = value.slice(0, 1); // Ensure only a single digit is stored
@@ -39,7 +42,7 @@ const EmailVerificationPage = () => {
   const handleKeyDown = (
     index: number,
     event: React.KeyboardEvent<HTMLInputElement>
-  ): void => {
+  ) => {
     if (event.key === "Backspace" && !otp[index]) {
       if (inputRefs.current[index - 1]) {
         inputRefs.current[index - 1]?.focus();
@@ -50,32 +53,32 @@ const EmailVerificationPage = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
-
+  
     try {
       const otpValue = otp.join("");
-      const email = useSelector((state) => state.auth.email);
+      console.log(otpValue)
+  
+      if (!email) {
+        throw new Error("Email is not available. Please sign up again.");
+      }
+  
       await axios.post(
         "https://qlodin-backend.onrender.com/api/user/auth/verify-email",
-        { email, otp: otpValue
-          
-         
-         }, // Include email and OTP in the payload
-        { 
-          headers: {
-            "Content-Type": "application/json",
-          },
-         }
+        { email, otp: otpValue },
+        { headers: { "Content-Type": "application/json" } }
       );
-
+  
       toast.success("Email verified successfully");
       router.push("/profilesetup");
     } catch (error: any) {
+      console.error("Verification Error:", error.response?.data); // Debug the error
       toast.error(error.response?.data?.message || "Failed to verify email");
     } finally {
       setLoading(false);
     }
   };
-
+  
+  
   // Auto-submit when all fields are filled
   useEffect(() => {
     if (otp.every((digit) => digit !== "")) {

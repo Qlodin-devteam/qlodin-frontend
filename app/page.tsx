@@ -29,13 +29,13 @@ export default function Home() {
       <div className="mt-4">
         <Link
           href="/sign-in"
-          className="text-white font-bold py-2 px-4 rounded bg-[#000000] hover:bg-[#3a393a]"
+          className="text-black font-bold py-2 px-4 rounded bg-transparent border hover:bg-[#f1eaea]"
         >
           Log In
         </Link>
         <Link
           href="/sign-up"
-          className="ml-2 text-white font-bold py-2 px-4 rounded bg-[#000000] hover:bg-[#212121]"
+          className="ml-2 text-black font-bold py-2 px-4 rounded bg-transparent border hover:bg-[#f1eaea]"
         >
           Sign Up
         </Link>
